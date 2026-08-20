@@ -89,6 +89,19 @@ When a component is a single standalone component, keep it as `ComponentName.tsx
 
 When creating or growing a component into a small local component cluster, place it in a same-named folder with a primary `ComponentName.tsx`, colocated subcomponents, hooks, or services, and an `index.ts` barrel that preserves the public import path.
 
-If a component owns an inner component that is only used by that component family, keep that local component inside the parent component's folder rather than promoting it to a broader component directory. Check actual call sites before deciding reuse; a barrel export or public-looking filename does not by itself mean the component is reused.
+A component with one caller is a nesting candidate, but caller count alone isn't the test — nest it only if it also **relays** rather than **owns**. A relay renders static or decorative markup, or forwards its caller's handlers down (at most partially applying an id), adding no handlers and no accessibility contract of its own; nothing about it sends a reader looking for it by name. An owner wires its own handlers to real controls and carries its own aria contract — a reader debugging that interaction searches for it by name, so leave it flat and top-level even with one caller today.
+
+Nest a relay under its sole caller's same-named folder, ready to promote out if it gains a second caller. The feature's root component is already the feature folder, so its relays stay flat there.
+
+Check actual call sites before deciding; a barrel export or a public-looking filename does not by itself mean a component is reused.
+
+```text
+photo-composer/
+  BandEditor.tsx              // owner: own drag/click + aria, flat despite one caller
+  CompositionPanel/
+    CompositionPanel.tsx
+    BandList.tsx              // relay: forwards handlers, adds none
+    index.ts
+```
 
 Use `ComponentNameService.ts` for component-local data, helpers, or service-like contracts that support one component family. Avoid vague filenames such as `items.ts` when the module is effectively the component's local service boundary.
