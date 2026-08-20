@@ -55,6 +55,28 @@ function getClassName(locked: boolean, intent: "head" | "body" | "other") {
 }
 ```
 
+A ternary feeding JSX children becomes a named `const` above the `return`, even
+with one condition — the return reads as markup, not branching. Attribute
+ternaries (`className={selected ? "a" : "b"}`) stay inline.
+
+```tsx
+// Wrong
+return (
+  <Text>
+    {selectedItem
+      ? `${selectedItem.name} selected. Choose a destination.`
+      : "Select an item, then choose its destination."}
+  </Text>
+);
+
+// Right
+const statusText = selectedItem
+  ? `${selectedItem.name} selected. Choose a destination.`
+  : "Select an item, then choose its destination.";
+
+return <Text>{statusText}</Text>;
+```
+
 ## Verify
 
 Run the project's narrowest lint command after edits. Report pre-existing
