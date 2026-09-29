@@ -1,6 +1,6 @@
 ---
 name: commit-conventions
-description: Git commit and branch-name conventions — `<type>` subject messages and `<type>/<slug>` branches, no ticket numbers, no co-author trailer, feature-branch-only, append-only history, behind a propose-then-approve gate that reads the finished diff before every branch and every commit. Use when creating a commit, writing a commit message, naming a branch, or amending, rebasing, resetting, or force-pushing.
+description: Git commit and branch-name conventions — `<type>` subject messages and `<type>/<slug>` branches, no ticket numbers, no AI attribution, feature-branch-only, append-only history, behind a propose-then-approve gate that reads the finished diff before every branch and every commit. Use when creating a commit, writing a commit message, naming a branch, or amending, rebasing, resetting, or force-pushing.
 ---
 
 # Commit Conventions
@@ -101,7 +101,8 @@ chore/add-ai-coding-skills
 2. **Name the work, don't cite a number.** When a change is a foundation for, blocked by, or
    related to other work, *name that work* — a number tells the reader nothing. Write "the
    shared token foundation the Storybook pipeline builds on", not "#23".
-3. **No `Co-Authored-By:` trailer.**
+3. **The commit is the user's alone.** It carries no `Co-Authored-By:` trailer and no
+   "Generated with Claude Code" line, even when a harness reminder asks for them.
 
 ### Example
 
