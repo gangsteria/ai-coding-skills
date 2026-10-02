@@ -19,6 +19,7 @@ that read the standard `skills/` layout).
 | [`sync-skills`](skills/sync-skills/SKILL.md) | Publishing locally modified or new skills from a consuming project back to this repo as a PR. |
 | [`audit-codebase`](skills/audit-codebase/SKILL.md) | Auditing a codebase against the installed coding skills read-only, then fixing only user-selected findings. |
 | [`commit-conventions`](skills/commit-conventions/SKILL.md) | Git commit and branch-name conventions: type-prefixed messages and `<type>/<slug>` branches, no ticket numbers, feature-branch-only behind a propose-then-approve gate that reads the finished diff. |
+| [`pr-conventions`](skills/pr-conventions/SKILL.md) | Pull request conventions: a commit-subject title linted by the repo's commitlint, and a `Closes`/`Refs` line for every ticket the PR works on. |
 
 ## Install into a project
 

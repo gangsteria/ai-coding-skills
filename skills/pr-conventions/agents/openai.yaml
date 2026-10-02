@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Conventions"
+  short_description: "Pull request conventions: a commit-subject title linted by the repo's commitlint, and a Closes or Refs line for every ticket the PR works on."
+  default_prompt: "Use $pr-conventions when opening a pull request or changing its title or description."
