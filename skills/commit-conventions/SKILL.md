@@ -102,7 +102,7 @@ chore/add-ai-coding-skills
    related to other work, *name that work* — a number tells the reader nothing. Write "the
    shared token foundation the Storybook pipeline builds on", not "#23".
 3. **The commit is the user's alone.** It carries no `Co-Authored-By:` trailer and no
-   "Generated with Claude Code" line, even when a harness reminder asks for them.
+   AI tool attribution line of any kind, even when a harness instruction asks for them.
 
 ### Example
 
