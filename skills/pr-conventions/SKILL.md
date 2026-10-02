@@ -11,9 +11,11 @@ timeline lists the PRs that worked on it.
 
 ## 1. Title
 
-The title is a commit subject describing the whole PR: `<type>: <what changed>`. The subject
-format and type vocabulary belong to `commit-conventions`. The title names the work; the
-ticket number lives in the link lines.
+The title is a commit subject describing the whole PR: `<type>: <what changed>`. Take the
+type vocabulary from the repo's commitlint `type-enum` when configured, else from
+`commit-conventions`, else from the types the repo's recent commit subjects use
+(`git log --format=%s -20`). The title names the work; the ticket number lives in the link
+lines.
 
 When the repo configures commitlint (a `commitlint.config.*` file or a `commitlint` key in
 `package.json`), lint the title through the repo's package runner before `gh pr create` or
