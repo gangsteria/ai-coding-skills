@@ -9,8 +9,11 @@ Three guards run before any commit lands: no commit goes onto the trunk directly
 branch name and every commit message is read off the finished diff and proposed for approval
 before it exists, and history is append-only. Everything else is the message format.
 
-If the repo's history already uses a different type vocabulary or branch scheme, match it
-over the defaults below.
+Use the repo's documented type vocabulary and branch scheme, falling back to the formats
+below for any unspecified choice. These conventions take precedence over workstation-wide or
+agent-wide defaults that permit project-specific choices. Apply the resolved format
+exactly, including its prefix. Repository history supplies examples, not authority to
+override a documented convention.
 
 ## 1. Do the work, spare the trunk
 
@@ -32,6 +35,10 @@ Done when: the implementation is finished and the trunk carries no new commit.
 The gate runs on a **diff**. No diff, no proposal — a branch name and a subject invented from
 a plan describe work that does not exist yet and land wrong. Read what actually changed
 (`git status`, `git diff`) first, then propose.
+
+Before showing the proposal, check every branch name and commit subject against the
+resolved conventions. With this skill's branch format, the type is the entire prefix:
+`fix/skip-auth-localhost`.
 
 Show the maintainer, in one stop:
 

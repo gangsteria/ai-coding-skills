@@ -61,6 +61,11 @@ A skill is **steps** (ordered actions) and **reference** (rules and facts), in a
 - **Inspect before imposing.** Tell the agent to match the host project's existing
   conventions (import paths, formatter, file placement, test-script names) before applying
   defaults — skills land in unknown codebases.
+- **Define fallback scope.** When supplying a convention, state how to resolve it:
+  documented project rules first, then the skill's convention, then workstation-wide or
+  agent-wide defaults that permit project-specific choices. Put a check against the
+  resolved convention at the step that proposes or produces the result. Mandatory
+  higher-priority instructions still apply; surface an incompatible requirement to the user.
 - **Scope edits narrowly.** Avoid unrelated churn (reformatting, import reshuffles).
 - **Cross-reference declaratively.** Skills install one at a time and nothing resolves
   dependencies, so a skill you name may be absent. Mark the boundary ("service modules
