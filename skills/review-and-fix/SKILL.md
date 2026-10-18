@@ -1,7 +1,6 @@
 ---
 name: review-and-fix
-description: Review a finished diff in rounds, fixing findings until only trivial ones remain; then commit and push.
-disable-model-invocation: true
+description: Review a finished diff in rounds, fixing findings until only trivial ones remain; then commit and push. Use when an implementation is finished, before proposing its commits.
 ---
 
 # Review and Fix
