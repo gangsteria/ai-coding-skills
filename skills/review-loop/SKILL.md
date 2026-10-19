@@ -37,18 +37,29 @@ written out in full for the reviewers, and any evidence the project requires is 
 ## 2. Review round
 
 Invoke `code-review` in a fresh subagent for this round. Give it the saved base SHA, the output of
-`git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`, the paths and
-contents of every untracked file, the full spec, required evidence, and any earlier fixes or
-decisions. Tell it to use the supplied change and spec as its review target and pass the whole brief
+`git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`, the path of every
+untracked file with an instruction to read each one in full as a new file, the full spec, required
+evidence, and any earlier fixes or decisions. Tell it to use the supplied change and spec as its review target and pass the whole brief
 to fresh Standards and Spec reviewers. Its standalone `git diff <fixed-point>...HEAD` command misses
 worktree changes; its standalone spec
-discovery misses decisions from this task. If `code-review` is unavailable or cannot review the
-supplied change and spec, stop and report the blocker. Keep its two reports separate, then label
-each in-scope finding using [Labels](#labels) and record its ground; list out-of-scope findings
-separately.
+discovery misses decisions from this task. Tell it to run both reviewers in parallel and wait for
+both to finish before replying (in Claude Code: two foreground calls in one message, never
+background tasks), and to reply only with both full reports. A reply without both reports, or with
+a review the subagent wrote itself, is not a round: discard it and rerun the round in a new
+subagent. If `code-review` is unavailable or cannot review the supplied change and spec, stop and
+report the blocker. Keep its two reports separate, then label each in-scope finding using
+[Labels](#labels) and record its ground; list out-of-scope findings separately.
 
-Done when: both reports are in, every finding is labelled or listed as out of scope, and every
-non-trivial finding states its ground.
+Then choose the next step before touching any file:
+
+- no non-trivial finding on either axis: go to step 5, the loop ended on a clean round;
+- this was the third round: go to step 5 and hand the findings over. Do not fix them, not even a
+  one-line fix: every fix must be reviewed by a later round, and none follows the third;
+- otherwise: go to step 3.
+
+Done when: both reports came from the fresh reviewers `code-review` spawned, every finding is
+labelled or listed as out of scope, every non-trivial finding states its ground, and the next step
+is chosen.
 
 ## 3. Fix
 
@@ -82,9 +93,8 @@ Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
   neither comes back;
 - to report only **new** findings, plus any earlier fix that went wrong.
 
-Loop until one round returns no non-trivial findings on either axis. Every fix is reviewed by the
-round after it. If the third round still returns a non-trivial finding, stop and hand the findings
-to the maintainer, because the change needs a decision rather than another pass.
+Then return to the choice at the end of step 2. Every fix is reviewed by the round after it, so the
+diff is frozen once the third round has run.
 
 Done when: a full round comes back with nothing non-trivial, or the loop was handed to the
 maintainer for a decision.
@@ -95,7 +105,8 @@ Open the report with the **tally**: how many rounds actually ran, and whether th
 clean round or was handed over for a decision. Then list:
 
 - per round, each non-trivial finding, its ground, and how it ended: fixed, rejected with its proof,
-  or escalated; mark the ones you raised from trivial;
+  escalated, or handed over (found in the third round and left unfixed, with the proposed fix as
+  text); mark the ones you raised from trivial;
 - the trivial findings left alone, one line each;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
