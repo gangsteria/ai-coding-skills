@@ -44,6 +44,14 @@ npx skills add gangsteria/ai-coding-skills --skill sync-skills --yes
 Skills land in the selected agents' directories, such as `.claude/skills/` for Claude Code and `.agents/skills/` for Codex.
 List what's installed with `npx skills list`.
 
+### Setting up review-loop
+
+`review-loop` requires `code-review` from another catalog. Install it in the same project:
+
+```bash
+npx skills add mattpocock/skills --skill code-review
+```
+
 ## Update when a skill improves
 
 When a skill is improved here, refresh it in a consumer project by re-pulling from this
@@ -56,10 +64,6 @@ npx skills update
 # Update a single skill
 npx skills update unit-test
 ```
-
-`review-loop` allows one level of subagents: its reviewers start none of their own. In Claude
-Code, a project can enforce that by setting `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to `1` in
-the `env` block of `.claude/settings.json`.
 
 ## Improving skills from a project
 

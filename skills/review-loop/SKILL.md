@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: Review and fix a finished implementation with code-review. Use when implementation in the current task is complete, before handoff. Not for docs-only changes, prototypes, or when the user declines review.
+description: Review and fix a finished implementation with code-review. Use when implementation in the current task is complete, before handoff.
 ---
 
 # Review Loop
@@ -41,18 +41,21 @@ Done when: the loop runs, or the handoff names why it was skipped.
   tracked files. Run `git ls-files --others --exclude-standard` and read each listed file as a new
   file; Git diff does not include untracked files.
 - **Spec.** Find what the change was meant to do, in this order:
-  1. the decisions the maintainer agreed in this session, quoted verbatim;
+  1. the maintainer's request and the decisions agreed in this session, quoted verbatim;
   2. the originating issue;
   3. the PR description.
 
-  Quote any agreed product text exactly.
+  Quote any agreed product text exactly. When none of these exists, mark the spec as unavailable
+  rather than reconstructing it from the diff: the Spec axis then reports `no spec available`, and
+  the report says so.
 
 - **Repo-specific evidence.** When the project's documented rules require extra evidence for the
   kind of change in the diff (screenshots, a journey run, a generated artifact), produce it now and
   hand it to every review round.
 
 Done when: the base SHA is saved, the tracked diff or untracked-file list is non-empty, the spec is
-written out in full for the reviewers, and any evidence the project requires is fresh.
+written out in full for the reviewers or marked unavailable, and any evidence the project requires
+is fresh.
 
 ## 2. Review round
 
@@ -60,9 +63,9 @@ Invoke `code-review` yourself for this round, not through a subagent: review all
 subagents, and those are its Standards and Spec reviewers. Use as its review target the saved base
 SHA, the output of `git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`,
 the path of every untracked file with an instruction to read each one in full as a new file, the
-full spec, required evidence, and any earlier fixes or decisions. Its standalone
-`git diff <fixed-point>...HEAD` command misses worktree changes; its standalone spec discovery
-misses decisions from this task.
+full spec or its unavailable status, required evidence, and any earlier fixes or decisions. Use
+this target in place of `code-review`'s own diff and spec discovery: it covers uncommitted work and
+the decisions made in this task.
 
 Pass that whole brief to both fresh reviewers, and tell them not to start subagents of their own.
 Run them in parallel where the agent supports it, sequentially otherwise, and wait for both
@@ -136,6 +139,7 @@ clean round or was handed over for a decision. Then list:
 - the trivial findings left alone, one line each;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
+- when the spec was unavailable, say so;
 - any evidence produced in step 1.
 
 After a clean round, return the reviewed diff to the surrounding task. When a decision is pending,
