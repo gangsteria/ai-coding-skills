@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: Use when an implementation is finished and its diff needs review before delivery.
+description: Review and fix a finished implementation with code-review. Use when implementation in the current task is complete, before handoff.
 ---
 
 # Review Loop
@@ -9,8 +9,8 @@ Run a finished change through rounds of review and fixes. Stop when a whole roun
 changing, then hand the reviewed diff back to the surrounding task for delivery.
 
 Review is split into two axes: **Standards** (does the change follow the repo's documented coding
-standards?) and **Spec** (does it do what was asked?). This skill gives each new reviewer the current
-change and the context from earlier rounds, then owns how findings are labelled, fixed and reported.
+standards?) and **Spec** (does it do what was asked?). `code-review` runs those axes in each round.
+This skill supplies the current change and context, fixes grounded findings and decides when to stop.
 
 ## 1. Pin the change and its spec
 
@@ -36,12 +36,16 @@ written out in full for the reviewers, and any evidence the project requires is 
 
 ## 2. Review round
 
-Start fresh Standards and Spec subagents for this round, in parallel. If either cannot be started,
-stop and report the blocker. Give each reviewer the saved base SHA, the commands above, the current
-untracked-file paths and contents, the full spec, required evidence, and the [Labels](#labels)
-section verbatim. The Standards reviewer checks the repo's documented rules and any relevant
-heuristics from an installed review skill; the Spec reviewer checks the change against the spec.
-Include earlier fixes and decisions in each new assignment after the first round.
+Invoke `code-review` in a fresh subagent for this round. Give it the saved base SHA, the output of
+`git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`, the paths and
+contents of every untracked file, the full spec, required evidence, and any earlier fixes or
+decisions. Tell it to use the supplied change and spec as its review target and pass the whole brief
+to fresh Standards and Spec reviewers. Its standalone `git diff <fixed-point>...HEAD` command misses
+worktree changes; its standalone spec
+discovery misses decisions from this task. If `code-review` is unavailable or cannot review the
+supplied change and spec, stop and report the blocker. Keep its two reports separate, then label
+each in-scope finding using [Labels](#labels) and record its ground; list out-of-scope findings
+separately.
 
 Done when: both reports are in, every finding is labelled or listed as out of scope, and every
 non-trivial finding states its ground.
@@ -71,7 +75,7 @@ checks pass.
 
 ## 4. Re-review
 
-Start a new round (step 2). Tell the reviewers:
+Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
 
 - what earlier rounds fixed, so they can check that each fix was done correctly;
 - what the maintainer chose to keep and why, plus every rejected finding with its recorded proof, so
