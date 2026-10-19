@@ -1,4 +1,4 @@
 interface:
   display_name: "Review and Fix"
-  short_description: "Review a finished diff in rounds, fix findings, then commit and push"
-  default_prompt: "Use $review-and-fix to review the finished diff in rounds, fix non-trivial findings until only trivial ones remain, then commit and push."
+  short_description: "Review and fix a finished implementation before delivery"
+  default_prompt: "Use $review-and-fix to review the finished diff in rounds and fix non-trivial findings until a round comes back clean."

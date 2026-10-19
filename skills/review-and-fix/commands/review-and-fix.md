@@ -1,6 +1,6 @@
 ---
-description: Review the finished diff in rounds, fix findings until only trivial ones remain, then commit and push.
+description: Review the finished diff in rounds and fix findings until only trivial ones remain.
 ---
 
 Use the review-and-fix skill: review the finished diff in rounds, fix every non-trivial finding,
-and when a round comes back clean, commit and push the change.
+and report the reviewed diff when a round comes back clean.

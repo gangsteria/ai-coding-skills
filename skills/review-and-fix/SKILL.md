@@ -1,18 +1,18 @@
 ---
 name: review-and-fix
-description: Review a finished diff in rounds, fixing findings until only trivial ones remain; then commit and push. Use when an implementation is finished, before proposing its commits.
+description: Use when an implementation is finished and its diff needs review before delivery.
 ---
 
 # Review and Fix
 
 Run a finished change through rounds of review and fixes. Stop when a whole round turns up nothing worth
-changing, then deliver the change.
+changing, then hand the reviewed diff back to the surrounding task for delivery.
 
 Review is split into two axes run as parallel sub-agents: **Standards** (does the change follow the
 repo's documented coding standards?) and **Spec** (does it do what was asked?). When a review skill
 exists, such as `code-review`, it owns those two axes. This skill owns the loop around them: how a
 finding is labelled, what gets fixed, what each new round is told, when the loop stops, and how the
-result lands.
+result is reported.
 
 ## 1. Pin the change and its spec
 
@@ -48,7 +48,7 @@ as non-trivial. Each non-trivial finding ends one of three ways:
 - **Rejected**, when its ground rests on a misreading or a scenario that cannot happen. Record the
   proof: the code line, or a test that shows it.
 - **Escalated**, when the fix would change an agreed decision. Leave it unfixed and put the decision
-  back to the maintainer.
+  back to the maintainer. An escalation ends this run of the loop until the maintainer decides.
 
 A trivial finding with a ground the reviewer missed becomes non-trivial: name the ground and fix it.
 Leave every other trivial finding, and every out-of-scope finding, as it is.
@@ -75,34 +75,26 @@ round after it. If the third round still returns a non-trivial finding, stop and
 to the maintainer, because the change needs a decision rather than another pass.
 
 Done when: a full round comes back with nothing non-trivial, or the loop was handed to the
-maintainer after three rounds.
+maintainer for a decision.
 
-## 5. Commit and push
-
-- Commit the change following the project's commit conventions.
-  - If the maintainer approved the message before the loop and the fixes did not change what the
-    diff does, that approval stands.
-  - Otherwise, propose the message again from the final diff.
-- Push. If the project runs checks on push, a failure there goes back to step 3.
-  - When it fails on a test that passes when run alone, run that test file alone to confirm. Then
-    retry the push once and report the flake.
-
-Done when: the commit is on the remote branch and the push-time checks passed.
-
-## 6. Report
+## 5. Report and hand off
 
 Open the report with the **tally**: how many rounds actually ran, and whether the loop ended on a
-clean round or was handed over after three. Then list:
+clean round or was handed over for a decision. Then list:
 
 - per round, each non-trivial finding, its ground, and how it ended: fixed, rejected with its proof,
   or escalated; mark the ones you raised from trivial;
 - the trivial findings left alone, one line each;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
-- any evidence produced in step 1, and whether it caught something the diff alone did not;
-- the commit SHA and the push result.
+- any evidence produced in step 1, and whether it caught something the diff alone did not.
 
-Done when: the maintainer has the tally, and every finding from every round is accounted for.
+After a clean round, return the reviewed diff to the surrounding task. That task's instructions and
+the host project's conventions govern any commit or push. When a decision is pending, report the
+question and wait for the maintainer before delivery.
+
+Done when: the maintainer has the tally, every finding from every round is accounted for, and the
+surrounding task has either a reviewed diff or a decision to resolve.
 
 ## Labels
 
