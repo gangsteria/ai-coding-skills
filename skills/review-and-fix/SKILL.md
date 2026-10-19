@@ -8,16 +8,18 @@ description: Use when an implementation is finished and its diff needs review be
 Run a finished change through rounds of review and fixes. Stop when a whole round turns up nothing worth
 changing, then hand the reviewed diff back to the surrounding task for delivery.
 
-Review is split into two axes run as parallel sub-agents: **Standards** (does the change follow the
-repo's documented coding standards?) and **Spec** (does it do what was asked?). When a review skill
-exists, such as `code-review`, it owns those two axes. This skill owns the loop around them: how a
-finding is labelled, what gets fixed, what each new round is told, when the loop stops, and how the
-result is reported.
+Review is split into two axes: **Standards** (does the change follow the repo's documented coding
+standards?) and **Spec** (does it do what was asked?). This skill gives each new reviewer the current
+change and the context from earlier rounds, then owns how findings are labelled, fixed and reported.
 
 ## 1. Pin the change and its spec
 
-- **Fixed point.** Use `HEAD` for an uncommitted diff (`git diff HEAD`). Use the base branch or SHA
-  for committed work.
+- **Fixed point.** Save one commit SHA for the whole loop. For uncommitted work, use
+  `git rev-parse HEAD`. To review the branch's commits too, use `git merge-base <base-branch> HEAD`,
+  or resolve the supplied base commit to a SHA. Keep this SHA through every round.
+- **Change.** In each round, run `git diff <base-sha>` for committed, staged and unstaged changes to
+  tracked files. Run `git ls-files --others --exclude-standard` and read each listed file as a new
+  file; Git diff does not include untracked files.
 - **Spec.** Find what the change was meant to do, in this order:
   1. the decisions the maintainer agreed in this session, quoted verbatim;
   2. the originating issue;
@@ -29,12 +31,17 @@ result is reported.
   kind of change in the diff (screenshots, a journey run, a generated artifact), produce it now and
   hand it to every review round.
 
-Done when: the diff is non-empty, the spec is written out in full for the reviewers, and any
-evidence the project requires for this kind of change is fresh.
+Done when: the base SHA is saved, the tracked diff or untracked-file list is non-empty, the spec is
+written out in full for the reviewers, and any evidence the project requires is fresh.
 
 ## 2. Review round
 
-Run both axes in parallel, and give every reviewer the [Labels](#labels) section verbatim.
+Start fresh Standards and Spec subagents for this round, in parallel where supported. If subagents
+are unavailable, make two separate passes sequentially. Give each reviewer the saved base SHA, the
+commands above, the current untracked-file paths and contents, the full spec, required evidence,
+and the [Labels](#labels) section verbatim. The Standards reviewer checks the repo's documented
+rules and any relevant heuristics from an installed review skill; the Spec reviewer checks the change
+against the spec. Include earlier fixes and decisions in each new assignment after the first round.
 
 Done when: both reports are in, every finding is labelled or listed as out of scope, and every
 non-trivial finding states its ground.
