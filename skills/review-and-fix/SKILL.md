@@ -89,9 +89,8 @@ clean round or was handed over for a decision. Then list:
 - any product text changed, with the old and new wording;
 - any evidence produced in step 1, and whether it caught something the diff alone did not.
 
-After a clean round, return the reviewed diff to the surrounding task. That task's instructions and
-the host project's conventions govern any commit or push. When a decision is pending, report the
-question and wait for the maintainer before delivery.
+After a clean round, return the reviewed diff to the surrounding task. When a decision is pending,
+report the question and wait for the maintainer before delivery.
 
 Done when: the maintainer has the tally, every finding from every round is accounted for, and the
 surrounding task has either a reviewed diff or a decision to resolve.
