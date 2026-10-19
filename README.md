@@ -57,6 +57,10 @@ npx skills update
 npx skills update unit-test
 ```
 
+`review-loop` allows one level of subagents: its reviewers start none of their own. In Claude
+Code, a project can enforce that by setting `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to `1` in
+the `env` block of `.claude/settings.json`.
+
 ## Improving skills from a project
 
 Skills naturally get improved *inside* consuming projects while working. The `skills` CLI

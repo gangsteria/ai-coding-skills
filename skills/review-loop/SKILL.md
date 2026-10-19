@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: Review and fix a finished implementation with code-review. Use when implementation in the current task is complete, before handoff.
+description: Review and fix a finished implementation with code-review. Use when implementation in the current task is complete, before handoff. Not for docs-only changes, prototypes, or when the user declines review.
 ---
 
 # Review Loop
@@ -11,6 +11,26 @@ changing, then hand the reviewed diff back to the surrounding task for delivery.
 Review is split into two axes: **Standards** (does the change follow the repo's documented coding
 standards?) and **Spec** (does it do what was asked?). `code-review` runs those axes in each round.
 This skill supplies the current change and context, fixes grounded findings and decides when to stop.
+
+## 0. Decide whether to run
+
+The project's documented rules on when to review come first; these defaults apply where it is
+silent. Skip the loop when:
+
+- the user asked for no review;
+- the change touches only documentation or comments;
+- the change is a throwaway prototype;
+- the change touches only generated files;
+- there is no change;
+- the loop already reviewed this exact change and nothing has changed since.
+
+Skip it too when you are a subagent: the reviewers would sit a second level below the task, and
+review allows one. Hand back to the agent that delegated to you the spec, every decision you made
+beyond it, and the list of changed files, so it can run the loop on your change.
+
+When you skip, say so in one line in your handoff: `Review skipped: <reason>.`
+
+Done when: the loop runs, or the handoff names why it was skipped.
 
 ## 1. Pin the change and its spec
 
@@ -36,19 +56,21 @@ written out in full for the reviewers, and any evidence the project requires is 
 
 ## 2. Review round
 
-Invoke `code-review` in a fresh subagent for this round. Give it the saved base SHA, the output of
-`git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`, the path of every
-untracked file with an instruction to read each one in full as a new file, the full spec, required
-evidence, and any earlier fixes or decisions. Tell it to use the supplied change and spec as its review target and pass the whole brief
-to fresh Standards and Spec reviewers. Its standalone `git diff <fixed-point>...HEAD` command misses
-worktree changes; its standalone spec
-discovery misses decisions from this task. Tell it to run both reviewers in parallel and wait for
-both to finish before replying (in Claude Code: two foreground calls in one message, never
-background tasks), and to reply only with both full reports. A reply without both reports, or with
-a review the subagent wrote itself, is not a round: discard it and rerun the round in a new
-subagent. If `code-review` is unavailable or cannot review the supplied change and spec, stop and
-report the blocker. Keep its two reports separate, then label each in-scope finding using
-[Labels](#labels) and record its ground; list out-of-scope findings separately.
+Invoke `code-review` yourself for this round, not through a subagent: review allows one level of
+subagents, and those are its Standards and Spec reviewers. Use as its review target the saved base
+SHA, the output of `git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`,
+the path of every untracked file with an instruction to read each one in full as a new file, the
+full spec, required evidence, and any earlier fixes or decisions. Its standalone
+`git diff <fixed-point>...HEAD` command misses worktree changes; its standalone spec discovery
+misses decisions from this task.
+
+Pass that whole brief to both fresh reviewers, and tell them not to start subagents of their own.
+Run them in parallel where the agent supports it, sequentially otherwise, and wait for both
+reports; never leave a reviewer running in the background. A round without both reviewers'
+reports, or with a review you wrote in their place, does not count: rerun it. If `code-review` is
+unavailable or cannot review the supplied change and spec, stop and report the blocker. Keep the
+two reports separate, then label each in-scope finding using [Labels](#labels) and record its
+ground; list out-of-scope findings separately.
 
 Then choose the next step before touching any file:
 
@@ -57,11 +79,15 @@ Then choose the next step before touching any file:
   one-line fix: every fix must be reviewed by a later round, and none follows the third;
 - otherwise: go to step 3.
 
-Done when: both reports came from the fresh reviewers `code-review` spawned, every finding is
+Done when: both reports came from the fresh reviewers, every finding is
 labelled or listed as out of scope, every non-trivial finding states its ground, and the next step
 is chosen.
 
 ## 3. Fix
+
+When a subagent wrote the change and can still be messaged, send it the findings with their
+grounds and the decisions so far, and let it check and fix them: it knows why it built the change
+as it did. Otherwise, check and fix them yourself.
 
 Check the ground of every non-trivial finding. A finding the two axes label differently is checked
 as non-trivial. Each non-trivial finding ends one of three ways:
