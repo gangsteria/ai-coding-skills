@@ -1,4 +1,0 @@
-interface:
-  display_name: "Review and Fix"
-  short_description: "Review and fix a finished implementation before delivery"
-  default_prompt: "Use $review-and-fix to review the finished diff in rounds and fix non-trivial findings until a round comes back clean."

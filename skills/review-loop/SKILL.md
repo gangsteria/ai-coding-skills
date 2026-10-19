@@ -1,9 +1,9 @@
 ---
-name: review-and-fix
+name: review-loop
 description: Use when an implementation is finished and its diff needs review before delivery.
 ---
 
-# Review and Fix
+# Review Loop
 
 Run a finished change through rounds of review and fixes. Stop when a whole round turns up nothing worth
 changing, then hand the reviewed diff back to the surrounding task for delivery.
@@ -36,12 +36,12 @@ written out in full for the reviewers, and any evidence the project requires is 
 
 ## 2. Review round
 
-Start fresh Standards and Spec subagents for this round, in parallel where supported. If subagents
-are unavailable, make two separate passes sequentially. Give each reviewer the saved base SHA, the
-commands above, the current untracked-file paths and contents, the full spec, required evidence,
-and the [Labels](#labels) section verbatim. The Standards reviewer checks the repo's documented
-rules and any relevant heuristics from an installed review skill; the Spec reviewer checks the change
-against the spec. Include earlier fixes and decisions in each new assignment after the first round.
+Start fresh Standards and Spec subagents for this round, in parallel. If either cannot be started,
+stop and report the blocker. Give each reviewer the saved base SHA, the commands above, the current
+untracked-file paths and contents, the full spec, required evidence, and the [Labels](#labels)
+section verbatim. The Standards reviewer checks the repo's documented rules and any relevant
+heuristics from an installed review skill; the Spec reviewer checks the change against the spec.
+Include earlier fixes and decisions in each new assignment after the first round.
 
 Done when: both reports are in, every finding is labelled or listed as out of scope, and every
 non-trivial finding states its ground.
@@ -74,7 +74,8 @@ checks pass.
 Start a new round (step 2). Tell the reviewers:
 
 - what earlier rounds fixed, so they can check that each fix was done correctly;
-- what the maintainer chose to keep and what was rejected, with the reason, so neither comes back;
+- what the maintainer chose to keep and why, plus every rejected finding with its recorded proof, so
+  neither comes back;
 - to report only **new** findings, plus any earlier fix that went wrong.
 
 Loop until one round returns no non-trivial findings on either axis. Every fix is reviewed by the
