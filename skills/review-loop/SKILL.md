@@ -63,17 +63,19 @@ Invoke `code-review` yourself for this round, not through a subagent: review all
 subagents, and those are its Standards and Spec reviewers. Use as its review target the saved base
 SHA, the output of `git log <base-sha>..HEAD --oneline`, the full output of `git diff <base-sha>`,
 the path of every untracked file with an instruction to read each one in full as a new file, the
-full spec or its unavailable status, required evidence, and any earlier fixes or decisions. Use
-this target in place of `code-review`'s own diff and spec discovery: it covers uncommitted work and
-the decisions made in this task.
+full spec or its unavailable status, required evidence, and any earlier fixes or decisions,
+including those from an earlier run of this loop on the same change. Use this target in place of
+`code-review`'s own diff and spec discovery: it covers uncommitted work and the decisions made in
+this task.
 
 Pass that whole brief to both fresh reviewers, and tell them not to start subagents of their own.
 Run them in parallel where the agent supports it, sequentially otherwise, and wait for both
 reports; never leave a reviewer running in the background. A round without both reviewers'
-reports, or with a review you wrote in their place, does not count: rerun it. If `code-review` is
-unavailable or cannot review the supplied change and spec, stop and report the blocker. Keep the
-two reports separate, then label each in-scope finding using [Labels](labels.md) and record its
-ground; list out-of-scope findings separately.
+reports, or with a review you wrote in their place, does not count: rerun it once, without counting
+the rerun as a round. If the rerun also lacks a report, or `code-review` is unavailable or cannot
+review the supplied change and spec, stop and report the blocker. Keep the two reports separate,
+then label each in-scope finding using [Labels](labels.md) and record its ground; list out-of-scope
+findings separately.
 
 Then choose the next step before touching any file:
 
@@ -82,9 +84,9 @@ Then choose the next step before touching any file:
   one-line fix: every fix must be reviewed by a later round, and none follows the third;
 - otherwise: go to step 3.
 
-Done when: both reports came from the fresh reviewers, every finding is
-labelled or listed as out of scope, every non-trivial finding states its ground, and the next step
-is chosen.
+Done when: both reports came from the fresh reviewers, every finding is labelled or listed as out
+of scope, every non-trivial finding states its ground, and the next step is chosen; or a blocker is
+reported.
 
 ## 3. Fix
 
@@ -108,10 +110,11 @@ When a fix changes product text the maintainer approved, keep the approved meani
 and new wording in the final report.
 
 Re-run the narrowest checks that cover the touched files (tests, type-check, lint, format check),
-using the project's own commands.
+using the project's own commands. When they still fail after three attempts to fix them, stop and
+report the failing check as a blocker instead of trying again.
 
 Done when: every non-trivial finding is fixed, rejected with proof, or escalated, and the narrow
-checks pass.
+checks pass or a failing check is reported as a blocker.
 
 ## 4. Re-review
 
@@ -119,7 +122,8 @@ Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
 
 - what earlier rounds fixed, so they can check that each fix was done correctly;
 - what the maintainer chose to keep and why, plus every rejected finding with its recorded proof, so
-  neither comes back;
+  neither comes back; carry these over from an earlier run of this loop on the same change too, such
+  as the run that escalated or handed over findings the maintainer has since decided;
 - to report only **new** findings, plus any earlier fix that went wrong.
 
 Then return to the choice at the end of step 2. Every fix is reviewed by the round after it, so the
