@@ -20,6 +20,7 @@ that read the standard `skills/` layout).
 | [`audit-codebase`](skills/audit-codebase/SKILL.md) | Auditing a codebase against the installed coding skills read-only, then fixing only user-selected findings. |
 | [`commit-conventions`](skills/commit-conventions/SKILL.md) | Git commit and branch-name conventions: type-prefixed messages and `<type>/<slug>` branches, no ticket numbers, feature-branch-only behind a propose-then-approve gate that reads the finished diff. |
 | [`pr-conventions`](skills/pr-conventions/SKILL.md) | Pull request conventions: a commit-subject title linted by the repo's commitlint, and a `Closes`/`Refs` line for every ticket the PR works on. |
+| [`review-loop`](skills/review-loop/SKILL.md) | Running `code-review` in rounds and fixing findings until only trivial ones remain; requires `code-review`. |
 
 ## Install into a project
 
@@ -42,6 +43,14 @@ npx skills add gangsteria/ai-coding-skills --skill sync-skills --yes
 
 Skills land in the selected agents' directories, such as `.claude/skills/` for Claude Code and `.agents/skills/` for Codex.
 List what's installed with `npx skills list`.
+
+### Setting up review-loop
+
+`review-loop` requires `code-review` from another catalog. Install it in the same project:
+
+```bash
+npx skills add mattpocock/skills --skill code-review
+```
 
 ## Update when a skill improves
 
