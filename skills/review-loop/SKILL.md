@@ -108,7 +108,10 @@ findings unchanged.
 
 Before applying each fix, classify its risk using [Fix risk](labels.md#fix-risk). In the third
 round, apply only minor fixes; hand over any other accepted fix with its proposed change as text.
-After applying a fix, check its actual diff against that classification.
+After applying a fix, check its actual diff against that classification. These rules also cover
+edits made to repair failing checks. If an actual fix requires another review in the third round,
+revert only that fix, preserve other work, and hand it over as a proposed change. If it cannot be
+safely separated, stop and report a blocker. Keep the round count unchanged.
 
 When a fix changes product text the maintainer approved, keep the approved meaning, and list the old
 and new wording in the final report.
