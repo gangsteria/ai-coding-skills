@@ -5,8 +5,8 @@ description: Review and fix a finished implementation with code-review. Use when
 
 # Review Loop
 
-Run a finished change through rounds of review and fixes. Stop when a whole round turns up nothing worth
-changing, then hand the reviewed diff back to the surrounding task for delivery.
+Run a finished change through rounds of review and fixes. When a whole round finds nothing non-trivial,
+finish the trivial cleanup and hand the diff back to the surrounding task for delivery.
 
 Review is split into two axes: **Standards** (does the change follow the repo's documented coding
 standards?) and **Spec** (does it do what was asked?). `code-review` runs those axes in each round.
@@ -79,9 +79,9 @@ findings separately.
 
 Then choose the next step before touching any file:
 
-- no non-trivial finding on either axis: go to step 5, the loop ended on a clean round;
-- this was the third round: go to step 5 and hand the findings over. Do not fix them, not even a
-  one-line fix: every fix must be reviewed by a later round, and none follows the third;
+- no non-trivial finding on either axis: go to step 5 for final cleanup, including after round three;
+- otherwise, this was the third round: go to step 6 and hand all remaining findings over without
+  fixes; non-trivial fixes need a later review round, and none follows the third;
 - otherwise: go to step 3.
 
 Done when: both reports came from the fresh reviewers, every finding is labelled or listed as out
@@ -104,7 +104,8 @@ labels it non-trivial, treat it as non-trivial. Each non-trivial finding ends on
   back to the maintainer. An escalation ends this run of the loop until the maintainer decides.
 
 A trivial finding with a ground the reviewer missed becomes non-trivial: name the ground and fix it.
-Leave every other trivial finding, and every out-of-scope finding, as it is.
+Keep every other in-scope trivial finding pending for step 5, including findings from earlier
+rounds that reviewers will not repeat. Leave out-of-scope findings unchanged.
 
 When a fix changes product text the maintainer approved, keep the approved meaning, and list the old
 and new wording in the final report.
@@ -126,28 +127,51 @@ Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
   as the run that escalated or handed over findings the maintainer has since decided;
 - to report only **new** findings, plus any earlier fix that went wrong.
 
-Then return to the choice at the end of step 2. Every fix is reviewed by the round after it, so the
-diff is frozen once the third round has run.
+Then return to the choice at the end of step 2. Fixes from step 3 are reviewed by the next round;
+step 5 is the only cleanup allowed after the third round.
 
 Done when: a full round comes back with nothing non-trivial, or the loop was handed to the
 maintainer for a decision.
 
-## 5. Report and hand off
+## 5. Final trivial cleanup
+
+Collect pending in-scope trivial findings from every round. Before editing, check each against the
+current diff: confirm it still applies and that a small, local change improves the code while
+preserving behaviour and agreed decisions. Accept every finding that passes this check; record a
+brief reason for each one skipped (for example, already resolved, unsupported, or out of scope).
+A speculative failure without a concrete path remains unsupported.
+
+If this check reveals a ground from [Labels](labels.md), promote the finding to non-trivial before
+making any cleanup edits and return to the choice in step 2 with the updated findings, keeping the
+round count. That sends rounds one and two through fixes and re-review, and round three to handoff
+without fixes.
+
+Once all pending findings are checked and none was promoted, apply the accepted trivial fixes.
+Use the narrow checks and failure limit from step 3. When they pass, go to step 6 without another
+review round; when they remain failing, report the blocker. These final trivial fixes are the
+exception to re-review: report them as checked but not re-reviewed.
+
+Done when: every pending trivial finding is fixed or skipped with a reason and checks pass, or
+promoted findings return to step 2, or a failing check is reported as a blocker.
+
+## 6. Report and hand off
 
 Open the report with the **tally**: how many rounds actually ran, and whether the loop ended on a
-clean round or was handed over for a decision. Then list:
+clean round, completed final trivial cleanup, was handed over for a decision, or hit a blocker.
+Then list:
 
 - per round, each non-trivial finding, its ground, and how it ended: fixed, rejected with its proof,
   escalated, or handed over (found in the third round and left unfixed, with the proposed fix as
   text); mark the ones you raised from trivial;
-- the trivial findings left alone, one line each;
+- each trivial finding and its outcome: fixed in final cleanup (checked but not re-reviewed),
+  skipped with a reason, or pending at handoff; include check results and any blockers;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
 - when the spec was unavailable, say so;
 - any evidence produced in step 1.
 
-After a clean round, return the reviewed diff to the surrounding task. When a decision is pending,
-report the question and wait for the maintainer before delivery.
+After a clean round and successful final cleanup, return the diff to the surrounding task. When a
+decision or blocker is pending, report it and wait for resolution before delivery.
 
 Done when: the maintainer has the tally, every finding from every round is accounted for, and the
-surrounding task has either a reviewed diff or a decision to resolve.
+surrounding task has either the checked diff or a decision or blocker to resolve.
