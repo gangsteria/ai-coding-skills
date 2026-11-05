@@ -5,8 +5,8 @@ description: Review and fix a finished implementation with code-review. Use when
 
 # Review Loop
 
-Run a finished change through rounds of review and fixes. Stop when a whole round turns up nothing worth
-changing, then hand the reviewed diff back to the surrounding task for delivery.
+Run a finished change through rounds of review and fixes. Complete verified improvements, then use
+the risk of the actual fixes to decide whether another review round is needed.
 
 Review is split into two axes: **Standards** (does the change follow the repo's documented coding
 standards?) and **Spec** (does it do what was asked?). `code-review` runs those axes in each round.
@@ -77,16 +77,10 @@ review the supplied change and spec, stop and report the blocker. Keep the two r
 then label each in-scope finding using [Labels](labels.md) and record its ground; list out-of-scope
 findings separately.
 
-Then choose the next step before touching any file:
-
-- no non-trivial finding on either axis: go to step 5, the loop ended on a clean round;
-- this was the third round: go to step 5 and hand the findings over. Do not fix them, not even a
-  one-line fix: every fix must be reviewed by a later round, and none follows the third;
-- otherwise: go to step 3.
+Pass every finding to step 3, including when all findings are trivial or this was the third round.
 
 Done when: both reports came from the fresh reviewers, every finding is labelled or listed as out
-of scope, every non-trivial finding states its ground, and the next step is chosen; or a blocker is
-reported.
+of scope, and every non-trivial finding states its ground; or a blocker is reported.
 
 ## 3. Fix
 
@@ -94,17 +88,27 @@ When a subagent wrote the change and can still be messaged, send it the findings
 grounds and the decisions so far, and let it check and fix them: it knows why it built the change
 as it did. Otherwise, check and fix them yourself.
 
-Check the ground of every non-trivial finding. When both axes report the same problem and only one
-labels it non-trivial, treat it as non-trivial. Each non-trivial finding ends one of three ways:
+Check every in-scope finding against the current change. When both axes report the same problem
+and only one labels it non-trivial, treat it as non-trivial. A trivial finding with a ground the
+reviewer missed becomes non-trivial: record the ground. Each non-trivial finding ends one of four
+ways:
 
 - **Fixed**, when its ground holds, however small or invisible the effect.
 - **Rejected**, when its ground rests on a misreading or a scenario that cannot happen. Record the
   proof: the code line, or a test that shows it.
 - **Escalated**, when the fix would change an agreed decision. Leave it unfixed and put the decision
   back to the maintainer. An escalation ends this run of the loop until the maintainer decides.
+- **Handed over**, when found in the third round and its fix requires another review under
+  [Fix risk](labels.md#fix-risk). Leave it unfixed and record the proposed fix as text.
 
-A trivial finding with a ground the reviewer missed becomes non-trivial: name the ground and fix it.
-Leave every other trivial finding, and every out-of-scope finding, as it is.
+For a trivial finding, name the concrete improvement its proposed fix would make. Apply it when
+that benefit can be verified against the current change and the scope is proportionate; leave
+unsupported preferences and speculative suggestions unchanged, with a reason. Leave out-of-scope
+findings unchanged.
+
+Before applying each fix, classify its risk using [Fix risk](labels.md#fix-risk). In the third
+round, apply only minor fixes; hand over any other accepted fix with its proposed change as text.
+After applying a fix, check its actual diff against that classification.
 
 When a fix changes product text the maintainer approved, keep the approved meaning, and list the old
 and new wording in the final report.
@@ -113,12 +117,19 @@ Re-run the narrowest checks that cover the touched files (tests, type-check, lin
 using the project's own commands. When they still fail after three attempts to fix them, stop and
 report the failing check as a blocker instead of trying again.
 
-Done when: every non-trivial finding is fixed, rejected with proof, or escalated, and the narrow
-checks pass or a failing check is reported as a blocker.
+Done when: every in-scope finding is fixed, rejected with proof, left unchanged with a reason,
+escalated, or handed over; every applied fix has its risk recorded; and the narrow checks pass or
+a failing check is reported as a blocker.
 
 ## 4. Re-review
 
-Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
+Choose the next step after fixes and checks:
+
+- an escalation, handed-over finding, or blocker remains: go to step 5 with it;
+- no fix was applied, or every applied fix is minor: go to step 5; this run is complete;
+- any applied fix requires another review: invoke `code-review` again with a fresh brief (step 2).
+
+Include in that brief:
 
 - what earlier rounds fixed, so they can check that each fix was done correctly;
 - what the maintainer chose to keep and why, plus every rejected finding with its recorded proof, so
@@ -126,28 +137,30 @@ Invoke `code-review` again with a fresh brief (step 2). Include in that brief:
   as the run that escalated or handed over findings the maintainer has since decided;
 - to report only **new** findings, plus any earlier fix that went wrong.
 
-Then return to the choice at the end of step 2. Every fix is reviewed by the round after it, so the
-diff is frozen once the third round has run.
+Each new round goes through step 3 again. Run at most three review rounds.
 
-Done when: a full round comes back with nothing non-trivial, or the loop was handed to the
-maintainer for a decision.
+Done when: the fixes require no further review and checks pass, or unresolved findings or a blocker
+are ready to hand over.
 
 ## 5. Report and hand off
 
-Open the report with the **tally**: how many rounds actually ran, and whether the loop ended on a
-clean round or was handed over for a decision. Then list:
+Open the report with the **tally**: how many rounds actually ran, and whether the loop completed
+or was handed over with unresolved findings or a blocker. Then list:
 
 - per round, each non-trivial finding, its ground, and how it ended: fixed, rejected with its proof,
   escalated, or handed over (found in the third round and left unfixed, with the proposed fix as
   text); mark the ones you raised from trivial;
-- the trivial findings left alone, one line each;
+- the trivial findings, each with its verified improvement and fix, or the reason it was left
+  unchanged; include the proposed fix for any handed over;
+- any minor fixes made after the last review, and the checks run on them; state that these fixes
+  received no further review;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
 - when the spec was unavailable, say so;
 - any evidence produced in step 1.
 
-After a clean round, return the reviewed diff to the surrounding task. When a decision is pending,
-report the question and wait for the maintainer before delivery.
+After completion, return the diff to the surrounding task. When a decision is pending or a blocker
+remains, report it and wait for the maintainer before delivery.
 
 Done when: the maintainer has the tally, every finding from every round is accounted for, and the
-surrounding task has either a reviewed diff or a decision to resolve.
+surrounding task has either the completed diff or an unresolved finding or blocker to resolve.
