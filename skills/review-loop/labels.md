@@ -1,7 +1,7 @@
 # Labels
 
-Label every finding **trivial** or **non-trivial**. A finding is non-trivial, worth another round of
-review, only when it carries one **ground** that can be checked:
+Label every finding **trivial** or **non-trivial**. A finding is non-trivial when it carries one
+**ground** that can be checked:
 
 - **Consequence**: what goes wrong if the finding ships unfixed, as one of:
   - _behaviour_: a named input or state produces a wrong result;
@@ -37,3 +37,19 @@ diff newly causes, such as new code that exposes an old bug.
 | No comment says why `x !== undefined` is checked                 | trivial     | none: nothing misleads                      |
 | Rapid repeats could drop steps, with no sequence named           | trivial     | none: no path to the failure                |
 | A line runs past the usual width                                 | trivial     | none: formatting                            |
+
+## Fix risk
+
+Classify the proposed correction separately from the finding. A non-trivial finding can have a
+minor fix; a trivial finding can lead to a risky change.
+
+A **minor fix** is a local, plainly correct improvement whose effect can be fully checked by
+inspecting the diff and running the narrow relevant checks. It preserves runtime behaviour,
+product text, public interfaces, dependencies, and test assertions. Examples: correcting a typo
+in an ordinary comment, repairing a misleading description to match unchanged code, or formatting
+the affected lines with the project's formatter. Check that edited comments are ordinary text
+rather than tool directives or generated inputs.
+
+A minor fix needs those checks, but no further review round. Every other fix requires another
+round, including changes to logic or control flow, refactoring, and any correction with uncertain
+effects. Judge the actual change, rather than its line count or the reviewer's label.
