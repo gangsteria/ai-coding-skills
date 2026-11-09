@@ -15,6 +15,7 @@ that read the standard `skills/` layout).
 | [`react-component-conventions`](skills/react-component-conventions/SKILL.md) | Conventions for creating, extracting, and structuring `.tsx` React components and their props/files. |
 | [`unit-test`](skills/unit-test/SKILL.md) | Writing and updating Vitest unit tests with AAA layout, naming, and verification conventions. |
 | [`storybook`](skills/storybook/SKILL.md) | Which components and appearances earn stories, how to write them, and verifying them with axe and committed pixel baselines. |
+| [`e2e-test`](skills/e2e-test/SKILL.md) | Browser end-to-end test conventions: choosing the test layer, isolating scenarios, diagnosing failures and slowdowns, and verifying with repeated runs. |
 | [`skill-craft`](skills/skill-craft/SKILL.md) | Conventions for writing and reviewing skills (SKILL.md frontmatter, triggers, body, verification). |
 | [`sync-skills`](skills/sync-skills/SKILL.md) | Publishing locally modified or new skills from a consuming project back to this repo as a PR. |
 | [`audit-codebase`](skills/audit-codebase/SKILL.md) | Auditing a codebase against the installed coding skills read-only, then fixing only user-selected findings. |
