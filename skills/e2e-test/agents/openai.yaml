@@ -1,0 +1,4 @@
+interface:
+  display_name: "E2E Test"
+  short_description: "Keep browser e2e tests fast and stable"
+  default_prompt: "Use $e2e-test when choosing browser coverage, changing browser specs or their setup, or diagnosing suite failures or slowdowns."
