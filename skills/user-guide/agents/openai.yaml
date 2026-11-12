@@ -1,0 +1,4 @@
+interface:
+  display_name: "User Guide"
+  short_description: "Keep the how-to user guide in step with the app"
+  default_prompt: "Use $user-guide when a finished change alters what users see or do, or when setting up or writing the guide."
