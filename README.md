@@ -22,6 +22,7 @@ that read the standard `skills/` layout).
 | [`commit-conventions`](skills/commit-conventions/SKILL.md) | Git commit and branch-name conventions: type-prefixed messages and `<type>/<slug>` branches, no ticket numbers, feature-branch-only behind a propose-then-approve gate that reads the finished diff. |
 | [`pr-conventions`](skills/pr-conventions/SKILL.md) | Pull request conventions: a commit-subject title linted by the repo's commitlint, and a `Closes`/`Refs` line for every ticket the PR works on. |
 | [`review-loop`](skills/review-loop/SKILL.md) | Running `code-review`, applying verified improvements, and repeating review according to fix risk; requires `code-review`. |
+| [`user-guide`](skills/user-guide/SKILL.md) | Keeping a guide of how-to pages for the people using the app in step with user-visible changes: setup, per-change updates, a sweep for existing features, and a walk of every page in the running app. |
 | [`manual-qa`](skills/manual-qa/SKILL.md) | Deciding whether an implementation needs manual verification and, when it does, drafting a linked QA ticket another agent can execute locally. |
 
 ## Install into a project
