@@ -112,8 +112,18 @@ A concept page has no numbered steps: an action the reader takes belongs on a ho
 
 ## Index
 
-`index.md` opens the guide: one line on what the app is for, then the how-to pages grouped
-by audience, in the order a new user meets them, then the concept pages in one group. A
-page several audiences use sits in one group named for those audiences, ahead of the
-single-audience groups. Each item is a link titled with its goal or concept. Every page is
-linked from the index exactly once.
+`index.md` opens the guide: one line on what the app is for, then the how-to pages, then
+the concept pages in one group.
+
+- Each group heading tells a reader scanning for help what its pages hold: the how-to
+  group names steps to follow, the concept group names how the app works.
+- With two or more audiences, the how-to pages split into one group per audience, headed
+  by the audience as the app names it — there the role is what the reader selects by. A
+  page several audiences use sits in one group named for those audiences, ahead of the
+  single-audience groups.
+- The index fixes each group heading's wording in the guide language; a later page joins
+  an existing group rather than renaming it.
+- Single-audience groups, and pages within every group, follow the order a new user
+  meets them.
+- Each item is a link titled with its goal or concept. Every page is linked from the
+  index exactly once.
