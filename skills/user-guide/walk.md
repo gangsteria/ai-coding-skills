@@ -6,8 +6,12 @@ seen.
 ## Set up
 
 Start the app and sign in by the walk setup in the settings, on the viewport the settings
-name. When the walk needed something the walk setup lacks, such as an account for an
-audience or the place a sign-in message is read, add what worked to the settings.
+name. When the browser at hand cannot reach that viewport, walk headless at it with a
+browser automation script, and say in the report that the walk ran headless. A script
+waits for each screen as a person would, until its form is ready and its validation has
+settled: a state that only a script's timing produces is not a finding. When the walk
+needed something the walk setup lacks, such as an account for an audience or the place a
+sign-in message is read, add what worked to the settings.
 
 ## How-to pages
 
@@ -29,6 +33,12 @@ the rule.
 - **The screen is wrong:** a step where the screen leaves the reader without the next
   action is a Fix the UI finding. Write the page for the app as it runs and report the
   proposed wording.
+- **The flow is broken:** a defect leaves the flow's result wrong or unsafe, such as a
+  save the app accepts that breaks what others see, or an action that does more than its
+  label says. Open a bug ticket in the project's tracker. When the page can steer the
+  reader past the defect, write it for the app as it runs and name the ticket in the
+  report; otherwise **park** the batch: write none of it, and mark its plan entry blocked
+  by the ticket.
 - **The environment cannot walk the page:** the page is **unwalked**. Check its labels
   against the source and name the missing prerequisite.
 
@@ -36,4 +46,5 @@ Done when: each step was performed, and each step or result that differs by audi
 performed as each of those audiences; each quoted label matches the visible text character
 for character; each stated result was observed; each other state was observed or reported
 as unobserved; and each concept statement was observed or traced. Or the page is unwalked,
-with its labels checked and its missing prerequisite named.
+with its labels checked and its missing prerequisite named. Or the batch is parked behind
+a bug ticket.

@@ -15,6 +15,10 @@ rest. A shared run's entry comes ahead of the first goal that passes through it,
 page exists when theirs link to it. Note on each what its walk needs beyond the walk setup
 in the settings, such as a second account or a state only another person can cause.
 
+The plan's last entry is an **audit**: the whole guide read in the index's order and every
+page walked again, once every batch and every Fix the UI ticket the pages quote has
+merged. It closes the plan. Add it when the plan is created, and keep it last.
+
 While the settings give delivery as pending, the plan carries one delivery entry, placed
 where the guide first has a page to show: ahead of every batch entry when a page exists,
 otherwise right after the first batch entry.
@@ -43,6 +47,14 @@ none, take the next batch entry.
   screens in the app as it runs now, and correct the plan where the outcome changed. An
   outcome that leaves nothing to write closes the entry: record the reason on it and
   report it. Otherwise carry on from step 3 of `SKILL.md` through its report.
+- **Audit:** waits while another entry is open. Read the index and every page in its order
+  as a reader new to the app: one name per control, state and screen across pages, one
+  action per step with where its control is, the headings the first page fixed, a link to
+  every concept page a step relies on, Related and Used in complete, the index grouped as
+  [`page-format.md`](page-format.md) says. Then walk every page as
+  [`walk.md`](walk.md) describes and regenerate every image. Fix each page error, report
+  each Fix the UI proposal and each bug ticket, and report the skill's own shortfalls
+  with a proposed change each.
 
 End the report with the next open entry, which starts from a new request. When no entry
 is left open, set `Plan` in the settings to none and report the plan as finished.
@@ -70,6 +82,7 @@ Screens carrying no goal: <screens, or none>.
 
 - [ ] Batch for goal <#>: <how-to page title>; with it: <concept page titles, or none>. Walk needs: <need, or none>.
 - [ ] Delivery: <what the Delivery setting names>.
+- [ ] Audit: read the guide in the index's order and walk every page again; closes the plan.
 
 ## Fix the UI proposals
 
