@@ -16,7 +16,8 @@ page exists when theirs link to it. Note on each what its walk needs beyond the 
 in the settings, such as a second account or a state only another person can cause.
 
 The plan's last entry is an **audit**, performed under "Work the next entry". Add it when
-the plan is created or an existing plan lacks it, and keep it last. Reopen it when new
+the plan is created or an existing plan lacks it, and keep it last. Record its scope and
+reason using the Audit rule below; reassess them as the plan changes. Reopen it when new
 work is added after an earlier audit.
 
 While the settings give delivery as pending, the plan carries one delivery entry, placed
@@ -61,16 +62,23 @@ can run, leave them open, report each blocker or unmet prerequisite, and stop.
   outcome that leaves nothing to write closes the entry: record the reason on it and
   report it. Otherwise carry on from step 3 of `SKILL.md` through its report.
 - **Audit:** runs once every other entry is closed and any changes they produced have
-  merged. Open Fix the UI tickets do not block it: audit the app as it runs and name each
-  outstanding ticket and the pages it affects in the report. Their fixes recheck those
-  pages through the normal change route in `SKILL.md`. Read the index and every page in
-  its order as a reader new to the app, checking all of [`page-format.md`](page-format.md)
-  and consistent names for controls, states and screens across pages. Walk every page as
-  [`walk.md`](walk.md) describes and, with generated screenshots, regenerate every image.
+  merged. Audit the **whole guide** when the plan builds the first guide or changes
+  terminology or organization across the guide. Otherwise audit **affected pages**:
+  those added or updated by the plan, plus pages that rely on a shared run or concept
+  the plan changed. Include their index entries and links to and from other pages.
+  Record the page list and reason on the audit entry before starting.
+  Open Fix the UI tickets do not block it: audit the app as it runs and name each
+  outstanding ticket affecting those pages in the report. Their fixes recheck those
+  pages through the normal change route in `SKILL.md`. Read the selected pages in index
+  order as a reader new to the app, checking all of [`page-format.md`](page-format.md)
+  and consistent names for controls, states and screens across them. Walk those pages
+  as [`walk.md`](walk.md) describes. With generated screenshots, check their images and
+  regenerate affected captures.
   Fix each page error, report each Fix the UI proposal and bug ticket, and report the
   skill's own shortfalls with a proposed change each. If a walk parks a batch, its reopened
-  entry keeps the audit open for a later pass. Otherwise tick the audit after every page
-  meets the walk's completion criterion and every finding is fixed or reported.
+  entry keeps the audit open for a later pass. Otherwise tick the audit after every
+  selected page meets the walk's completion criterion, its index entry and links are
+  checked, and every finding is fixed or reported.
 
 End the report with the next executable entry, which starts from a new request, or the
 blockers when none can run. When no entry is left open, set `Plan` in the settings to none
@@ -101,7 +109,7 @@ Screens carrying no goal: <screens, or none>.
 
 - [ ] Batch for goal <#>: <how-to page title>; with it: <concept page titles, or none>. Walk needs: <need, or none>.
 - [ ] Delivery: <what the Delivery setting names>.
-- [ ] Audit: read the guide in the index's order and walk every page again; closes the plan.
+- [ ] Audit: <whole guide | affected pages>; reason: <why>; pages: <list, finalized before the audit>.
 
 ## Fix the UI proposals
 
