@@ -40,7 +40,7 @@ One page per goal.
   action.
 - **Related:** the page for the goal that usually comes next. Leave the section out until
   that page exists; the batch that writes it adds the link to every earlier page it
-  follows.
+  usually follows, limiting those earlier-page edits to the relevant links.
 
 The page of a run that other goals pass through is a how-to page with these differences:
 the title names the action the run performs, the steps go from the screen where the run
@@ -49,11 +49,16 @@ It closes with a **Used in** section linking to every how-to page that passes th
 run, added when the first such page exists; each later one adds its own link.
 
 With generated screenshots, add an image to a step whose control is hard to locate, and
-add that screen to the capture so the image regenerates with the rest. A control is hard
-to locate when it has no visible label, sits beside a look-alike that does something
-else, or shows only once the screen is swiped sideways; capture a swiped control in its
-swiped position. Crop each capture to leave out what changes between runs, such as dates
-and counts, so an unchanged screen regenerates an identical image.
+add that screen to the capture so the image regenerates with the rest. Examples include
+a control with no visible label, one beside a look-alike that does something else, or one
+that shows only once the screen is swiped sideways. Capture a swiped control in its
+swiped position. A menu and item that the step can name unambiguously need no image just
+because the menu starts closed.
+
+Keep captures reproducible with stable fixture values, cropping or masking for data that
+changes between runs, such as dates and counts. Preserve the control and the context the
+reader needs to find it. Run the settings' capture command twice against unchanged
+screens and check that the images are byte-identical.
 
 ```markdown
 # <Goal as the user would ask for it>
@@ -126,10 +131,11 @@ the concept pages in one group.
   by the audience as the app names it — there the role is what the reader selects by. A
   page several audiences use sits in one group named for those audiences, ahead of the
   single-audience groups.
-- With one audience and more pages than a phone screen shows, about eight, the how-to
-  pages split into one group per area of the app the goal starts from, headed by the
-  area as the app's navigation names it, in the navigation's order. Each area heading
-  replaces the how-to group heading.
+- When a how-to list outgrows the settings' viewport, split it by the app area each goal
+  starts from. About eight pages is a cue to check the rendered index, not a fixed cutoff.
+  Head areas by the app's navigation names, in navigation order. With one audience, area
+  headings replace the how-to heading; with several, nest areas under an audience group
+  only when its own list outgrows the viewport.
 - The index fixes each group heading's wording in the guide language; a later page joins
   an existing group rather than renaming it.
 - Single-audience groups, and pages within every group, follow the order a new user

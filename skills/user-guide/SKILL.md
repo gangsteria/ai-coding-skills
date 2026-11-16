@@ -93,25 +93,29 @@ Count the goals with an Update or Add outcome.
   [`plan.md`](plan.md), record them in the guide plan, and go to step 4.
 - **One:** write its batch as [`page-format.md`](page-format.md) describes, and walk each
   page as [`walk.md`](walk.md) describes before writing the next, a concept page ahead of
-  the how-to page that links to it. Then, when the settings give delivery as pending or
-  name a plan, read [`plan.md`](plan.md) and bring the plan up to date.
+  the how-to page that links to it. If the walk parks the batch, go to step 4 once its
+  blocker is recorded as `walk.md` requires. Otherwise, when the settings give delivery
+  as pending or name a plan, read [`plan.md`](plan.md) and bring the plan up to date.
 
 Done when: the one batch is written, in the guide location, in the guide language and
 linked from the index, each of its pages meets the completion criterion in `walk.md`, and
 the plan is up to date where delivery is pending or a plan exists; or every deferred goal
-has its entry in the plan.
+has its entry in the plan; or the batch is parked with its blocker recorded in the plan
+or a complete plan draft whose saving blocker is named.
 
 ## 4. Report
 
 Where the project reports a change (pull request description or ticket), or in the reply
-to the user when no change carries the work, write one line per page written or updated
-and per Fix the UI proposal, and, when goals were deferred, one line with their number and
-the plan. When no goal calls for a page or a proposal, write the not-needed line alone.
+to the user when no change carries the work, write one line per page written or updated,
+per parked batch and per Fix the UI proposal, and, when goals were deferred, one line with
+their number and the plan. When no goal calls for a page, a proposal or parking, write the
+not-needed line alone.
 
 ```text
 Guide: updated <page> — <what changed>
 Guide: added <page>
 Guide: deferred <number> goals — <plan link, or "plan drafted">
+Guide: parked <goal> — <bug ticket, or "bug drafted">; <plan link, or "plan drafted">
 Guide: UI fix proposed — <label> → <wording>
 Guide: not needed — <reason>
 ```
@@ -123,5 +127,6 @@ read until it is built. After assessing a change while the guide holds no other 
 the settings name no plan, add that the features that already exist have no guide yet,
 and that invoking the skill with no change to assess starts their inventory.
 
-Done when: every page written or updated and every proposal has its line, deferred goals
-have theirs with the plan, and every unwalked page and unobserved state is listed.
+Done when: every page written or updated, parked batch and proposal has its line,
+deferred goals have theirs with the plan, and every unwalked page and unobserved state
+is listed.
