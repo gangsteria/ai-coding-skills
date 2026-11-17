@@ -1,8 +1,13 @@
 # Guide plan
 
 The plan is the guide's backlog: every goal with its outcome, and the work still owed as
-an ordered list of **entries**. An entry is one session's work: one goal's batch, or the
-delivery.
+an ordered list of **entries**. An entry is one session's work: one goal's batch, the
+delivery, or the closing audit.
+
+When creating or opening a plan, keep one **Audit** entry last. Add it if missing;
+otherwise reuse the existing entry. Record its scope and reason using the Audit rule
+under "Work the next entry"; reassess them as the plan changes. Reopen it when work is
+added after a completed audit.
 
 - Deferring goals, or just wrote a batch? Read "Bring the plan up to date".
 - Otherwise read "Work the next entry".
@@ -28,13 +33,26 @@ report it as a draft, and name what blocked it.
 
 Done when: the ticket holds every goal decided in this run with its outcome and revision,
 every deferred goal has exactly one batch entry, the delivery entry is there while
-delivery is pending, and the settings carry the ticket's link; or the complete draft is
-returned with what blocked saving it.
+delivery is pending, the audit is last, and the settings carry the ticket's link; or the
+complete draft is returned with what blocked saving it.
+
+## Park a batch
+
+Use "Bring the plan up to date" to create or update the plan even for a single goal with
+`Plan: none`. Keep the goal's Add or Update outcome, and add or reopen its batch entry,
+unchecked and blocked by the bug ticket or draft. Keep the audit open after it. When the
+tracker cannot be written to, include the blocked entry in the returned plan draft.
+
+Done when: the batch has one open entry with its blocker in the plan or complete draft,
+and any failure to save the bug or plan is named in the report.
 
 ## Work the next entry
 
-Take the first open entry. A delivery entry waits until the guide has a page: while it has
-none, take the next batch entry.
+Take the first executable open entry. A parked batch stays blocked until its bug is fixed
+in the running app; then clear the blocker and retry the batch through its normal walk.
+Skip blocked entries and entries that need their unfinished work, such as a page linking
+to a parked shared run. A delivery entry waits until the guide has a page. If no entry
+can run, leave them open, report each blocker or unmet prerequisite, and stop.
 
 - **Delivery:** build what the Delivery setting names; for an in-app route, read
   [`in-app-delivery.md`](in-app-delivery.md). Record delivery as built in the settings,
@@ -43,13 +61,36 @@ none, take the next batch entry.
   screens in the app as it runs now, and correct the plan where the outcome changed. An
   outcome that leaves nothing to write closes the entry: record the reason on it and
   report it. Otherwise carry on from step 3 of `SKILL.md` through its report.
+- **Audit:** runs once every other entry is closed and its changes are integrated by
+  the project's workflow: in the target branch, through a merge or direct commit, or
+  saved in the shared source when version control is not used.
+  Audit the **whole guide** when the plan builds the first guide or changes
+  terminology or organization across the guide. Otherwise audit **affected pages**:
+  those added or updated by the plan, plus pages that rely on a shared run or concept
+  the plan changed. Include their index entries and links to and from other pages.
+  Record the page list and reason on the audit entry before starting.
+  Open Fix the UI tickets do not block it: audit the app as it runs and name each
+  outstanding ticket affecting those pages in the report. Their fixes recheck those
+  pages through the normal change route in `SKILL.md`. Read the selected pages in index
+  order as a reader new to the app, checking all of [`page-format.md`](page-format.md)
+  and consistent names for controls, states and screens across them. Walk those pages
+  as [`walk.md`](walk.md) describes. With generated screenshots, check their images and
+  regenerate affected captures.
+  Fix each page error, report each Fix the UI proposal and bug ticket, and report the
+  skill's own shortfalls with a proposed change each. If a walk parks a batch, its reopened
+  entry keeps the audit open for a later pass. Otherwise tick the audit after every
+  selected page meets the walk's completion criterion, its index entry and links are
+  checked, and every finding is fixed or reported.
 
-End the report with the next open entry, which starts from a new request. When no entry
-is left open, set `Plan` in the settings to none and report the plan as finished.
+End the report with the next executable entry, which starts from a new request, or the
+blockers when none can run. When no entry is left open, set `Plan` in the settings to none
+and report the plan as finished.
 
-Done when: the entry is ticked or closed with its reason in the ticket, the settings give
-delivery as built after a delivery entry and `Plan` as none after the last entry, and the
-report names the next open entry or the plan as finished.
+Done when: the entry is ticked or closed with its reason, or left open with its blocker;
+the settings give delivery as built after a delivery entry and `Plan` as none after the
+last entry closes; and the report names the next executable entry, the blockers, or the
+plan as finished. A complete draft with its saving blocker named stands in for an update
+the tracker could not save.
 
 ## Format
 
@@ -70,6 +111,7 @@ Screens carrying no goal: <screens, or none>.
 
 - [ ] Batch for goal <#>: <how-to page title>; with it: <concept page titles, or none>. Walk needs: <need, or none>.
 - [ ] Delivery: <what the Delivery setting names>.
+- [ ] Audit: <whole guide | affected pages>; reason: <why>; pages: <list, finalized before the audit>.
 
 ## Fix the UI proposals
 
