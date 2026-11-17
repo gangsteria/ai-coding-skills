@@ -11,8 +11,9 @@ Draw the steps from the step sources named in the settings and from the change i
 scenarios belong to `manual-qa`: a QA ticket linked to the change supplies ordered steps,
 starting state and expected results.
 
-The templates below name their sections in English. Translate the headings into the guide
-language once: the guide's first page fixes them, and every later page copies them.
+The templates below name their sections in English. Translate each section heading into
+the guide language when it first appears on a page of that kind (how-to or concept).
+Later pages of the same kind reuse that wording, including headings for optional sections.
 
 ## How-to page
 
@@ -122,9 +123,12 @@ A concept page has no numbered steps: an action the reader takes belongs on a ho
 
 ## Index
 
-`index.md` opens the guide: one line on what the app is for, then the how-to pages, then
-the concept pages in one group.
+`index.md` opens the guide: a title, one line on what the app is for, then the how-to
+pages, then the concept pages in one group.
 
+- **Title:** one H1 in the guide language. Reuse the project's established guide title;
+  otherwise translate "User guide for <app name>", keeping the app name as the UI writes
+  it. Keep that wording on later updates.
 - Each group heading tells a reader scanning for help what its pages hold: the how-to
   group names steps to follow, the concept group names how the app works.
 - With two or more audiences, the how-to pages split into one group per audience, headed
