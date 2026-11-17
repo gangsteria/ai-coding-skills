@@ -4,6 +4,11 @@ The plan is the guide's backlog: every goal with its outcome, and the work still
 an ordered list of **entries**. An entry is one session's work: one goal's batch, the
 delivery, or the closing audit.
 
+When creating or opening a plan, keep one **Audit** entry last. Add it if missing;
+otherwise reuse the existing entry. Record its scope and reason using the Audit rule
+under "Work the next entry"; reassess them as the plan changes. Reopen it when work is
+added after a completed audit.
+
 - Deferring goals, or just wrote a batch? Read "Bring the plan up to date".
 - Otherwise read "Work the next entry".
 
@@ -14,11 +19,6 @@ the order a new user meets the goals: getting into the app, the first core goal,
 rest. A shared run's entry comes ahead of the first goal that passes through it, so its
 page exists when theirs link to it. Note on each what its walk needs beyond the walk setup
 in the settings, such as a second account or a state only another person can cause.
-
-The plan's last entry is an **audit**, performed under "Work the next entry". Add it when
-the plan is created or an existing plan lacks it, and keep it last. Record its scope and
-reason using the Audit rule below; reassess them as the plan changes. Reopen it when new
-work is added after an earlier audit.
 
 While the settings give delivery as pending, the plan carries one delivery entry, placed
 where the guide first has a page to show: ahead of every batch entry when a page exists,
@@ -61,8 +61,10 @@ can run, leave them open, report each blocker or unmet prerequisite, and stop.
   screens in the app as it runs now, and correct the plan where the outcome changed. An
   outcome that leaves nothing to write closes the entry: record the reason on it and
   report it. Otherwise carry on from step 3 of `SKILL.md` through its report.
-- **Audit:** runs once every other entry is closed and any changes they produced have
-  merged. Audit the **whole guide** when the plan builds the first guide or changes
+- **Audit:** runs once every other entry is closed and its changes are integrated by
+  the project's workflow: in the target branch, through a merge or direct commit, or
+  saved in the shared source when version control is not used.
+  Audit the **whole guide** when the plan builds the first guide or changes
   terminology or organization across the guide. Otherwise audit **affected pages**:
   those added or updated by the plan, plus pages that rely on a shared run or concept
   the plan changed. Include their index entries and links to and from other pages.
