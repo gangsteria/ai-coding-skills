@@ -126,9 +126,9 @@ escalated, or handed over, and every applied fix has its risk recorded.
 Choose the next step after fixes:
 
 - a blocker remains: go to step 6 with it;
-- any applied fix requires another review: invoke `code-review` again with a fresh brief (step 2);
-- otherwise the review rounds are over: go to step 5, carrying any escalation or handed-over
-  finding with you.
+- an escalation is pending, or no applied fix requires another review: the review rounds are over;
+  go to step 5, carrying any escalation or handed-over finding with you;
+- otherwise: invoke `code-review` again with a fresh brief (step 2).
 
 Include in that brief:
 
@@ -149,7 +149,7 @@ type-check, lint, format check), using the project's own commands.
 
 Repair each failing check, classifying the repair with [Fix risk](labels.md#fix-risk) like any fix:
 
-- **minor**: apply it and re-run the failing checks;
+- **minor**: apply it and re-run every check that covers the files it touched;
 - **requires another review**, with fewer than three rounds run and no escalation pending: apply it
   and go to step 2 with the repair in the brief; this step runs again after that round;
 - **requires another review** otherwise: leave the check failing and report it as a blocker, with
