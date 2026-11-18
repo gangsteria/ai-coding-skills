@@ -108,29 +108,27 @@ findings unchanged.
 
 Before applying each fix, classify its risk using [Fix risk](labels.md#fix-risk). In the third
 round, apply only minor fixes; hand over any other accepted fix with its proposed change as text.
-After applying a fix, check its actual diff against that classification. These rules also cover
-edits made to repair failing checks. If an actual fix requires another review in the third round,
-revert only that fix, preserve other work, and hand it over as a proposed change. If it cannot be
-safely separated, stop and report a blocker. Keep the round count unchanged.
+After applying a fix, check its actual diff against that classification. If an actual fix requires
+another review in the third round, revert only that fix, preserve other work, and hand it over as a
+proposed change. If it cannot be safely separated, stop and report a blocker. Keep the round count
+unchanged.
 
 When a fix changes product text the maintainer approved, keep the approved meaning, and list the old
 and new wording in the final report.
 
-Re-run the narrowest checks that cover the touched files (tests, type-check, lint, format check),
-using the project's own commands. When they still fail after three attempts to fix them, stop and
-report the failing check as a blocker instead of trying again.
+Checks wait for step 5, where they run once on the final diff.
 
 Done when: every in-scope finding is fixed, rejected with proof, left unchanged with a reason,
-escalated, or handed over; every applied fix has its risk recorded; and the narrow checks pass or
-a failing check is reported as a blocker.
+escalated, or handed over, and every applied fix has its risk recorded.
 
 ## 4. Re-review
 
-Choose the next step after fixes and checks:
+Choose the next step after fixes:
 
-- an escalation, handed-over finding, or blocker remains: go to step 5 with it;
-- no fix was applied, or every applied fix is minor: go to step 5; this run is complete;
-- any applied fix requires another review: invoke `code-review` again with a fresh brief (step 2).
+- a blocker remains: go to step 6 with it;
+- an escalation is pending, or no applied fix requires another review: the review rounds are over;
+  go to step 5, carrying any escalation or handed-over finding with you;
+- otherwise: invoke `code-review` again with a fresh brief (step 2).
 
 Include in that brief:
 
@@ -142,10 +140,26 @@ Include in that brief:
 
 Each new round goes through step 3 again. Run at most three review rounds.
 
-Done when: the fixes require no further review and checks pass, or unresolved findings or a blocker
-are ready to hand over.
+Done when: the fixes require no further review, or a blocker is ready to hand over.
 
-## 5. Report and hand off
+## 5. Final checks
+
+Run the narrowest checks that cover every file in the final diff, tracked and untracked (tests,
+type-check, lint, format check), using the project's own commands.
+
+Repair each failing check, classifying the repair with [Fix risk](labels.md#fix-risk) like any fix:
+
+- **minor**: apply it and re-run every check that covers the files it touched;
+- **requires another review**, with fewer than three rounds run and no escalation pending: apply it
+  and go to step 2 with the repair in the brief; this step runs again after that round;
+- **requires another review** otherwise: leave the check failing and report it as a blocker, with
+  the proposed repair as text.
+
+When a check still fails after three repair attempts, stop and report it as a blocker.
+
+Done when: every check passes on the final diff, or each failing check is reported as a blocker.
+
+## 6. Report and hand off
 
 Open the report with the **tally**: how many rounds actually ran, and whether the loop completed
 or was handed over with unresolved findings or a blocker. Then list:
@@ -155,8 +169,8 @@ or was handed over with unresolved findings or a blocker. Then list:
   text); mark the ones you raised from trivial;
 - the trivial findings, each with its verified improvement and fix, or the reason it was left
   unchanged; include the proposed fix for any handed over;
-- any minor fixes made after the last review, and the checks run on them; state that these fixes
-  received no further review;
+- the final checks run and their result, and any minor fixes or check repairs made after the last
+  review; state that these received no further review;
 - the out-of-scope findings, as candidates for an issue the maintainer may file;
 - any product text changed, with the old and new wording;
 - when the spec was unavailable, say so;
