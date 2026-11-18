@@ -44,12 +44,12 @@ Classify the proposed correction separately from the finding. A non-trivial find
 minor fix; a trivial finding can lead to a risky change.
 
 A **minor fix** is a local, plainly correct improvement whose effect can be fully checked by
-inspecting the diff and running the narrow relevant checks. It preserves runtime behaviour,
+inspecting the diff and running the loop's final checks. It preserves runtime behaviour,
 product text, public interfaces, dependencies, and test assertions. Examples: correcting a typo
 in an ordinary comment, repairing a misleading description to match unchanged code, or formatting
 the affected lines with the project's formatter. Check that edited comments are ordinary text
 rather than tool directives or generated inputs.
 
-A minor fix needs those checks, but no further review round. Every other fix requires another
+A minor fix needs no further review round; the final checks cover it. Every other fix requires another
 round, including changes to logic or control flow, refactoring, and any correction with uncertain
 effects. Judge the actual change, rather than its line count or the reviewer's label.
